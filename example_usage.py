@@ -4,6 +4,7 @@ Exemple d'utilisation de la classe ArticleListReader.
 Example script demonstrating how to use the ArticleListReader class programmatically.
 """
 
+import pandas as pd
 from access_excel import ArticleListReader
 
 
@@ -62,7 +63,6 @@ def main():
     # 6. Exemple de filtrage personnalisé / Custom filtering example
     print("\n6. Exemple de filtrage: Articles avec prix > 10000:")
     print("-" * 40)
-    import pandas as pd
     all_articles = reader.get_all_articles()
     if 'Prix' in all_articles.columns:
         # Convertir Prix en numérique / Convert Price to numeric

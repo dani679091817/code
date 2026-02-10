@@ -24,10 +24,6 @@ class ArticleListReader:
         if not self.file_path.exists():
             raise FileNotFoundError(f"Excel file not found: {file_path}")
         
-        # Read the Excel file, skipping the header rows
-        # The actual data starts at row 6 (index 5), with the column headers at row 5
-        self.df_raw = pd.read_excel(file_path, header=None)
-        
         # Extract the actual data with proper headers
         # Looking at the structure, row 5 has the column names
         self.df = self._parse_data()
@@ -134,9 +130,17 @@ class ArticleListReader:
         if 'Prix' in self.df.columns:
             # Convert Prix to numeric, handling any non-numeric values
             prix_numeric = pd.to_numeric(self.df['Prix'], errors='coerce')
-            stats['min_price'] = prix_numeric.min()
-            stats['max_price'] = prix_numeric.max()
-            stats['avg_price'] = prix_numeric.mean()
+            min_price = prix_numeric.min()
+            max_price = prix_numeric.max()
+            avg_price = prix_numeric.mean()
+            
+            # Only add price statistics if we have valid values
+            if pd.notna(min_price):
+                stats['min_price'] = min_price
+            if pd.notna(max_price):
+                stats['max_price'] = max_price
+            if pd.notna(avg_price):
+                stats['avg_price'] = avg_price
         
         return stats
     
