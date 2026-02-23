@@ -1,5 +1,5 @@
 import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
 INPUT_FILE = "liste_article.xlsx"
@@ -14,9 +14,9 @@ ws_in = wb_in.active
 data_rows = []
 for row in ws_in.iter_rows(min_row=3, values_only=True):
     if any(v is not None for v in row):
-        ref = row[0]
-        designation = row[1]
-        prix = row[3]
+        ref = row[0]        # column A: Référence
+        designation = row[1]  # column B: Désignation
+        prix = row[3]       # column D: Prix TTC
         # Format price: remove trailing .0 for whole numbers
         if prix is not None:
             if isinstance(prix, float) and prix == int(prix):
